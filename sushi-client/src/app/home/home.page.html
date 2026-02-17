@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Sushify - {{ isLogged ? 'Tavolo ' + codiceTavolo : 'Benvenuto' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- LOGIN INIZIALE -->
+  <div *ngIf="!isLogged">
+    <ion-item>
+      <ion-label position="floating">Codice Tavolo</ion-label>
+      <ion-input [(ngModel)]="codiceTavolo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Il tuo Nome</ion-label>
+      <ion-input [(ngModel)]="nomeUtente"></ion-input>
+    </ion-item>
+    <ion-button expand="block" (click)="login()" class="ion-margin-top">Entra</ion-button>
+  </div>
+
+  <!-- MENU E ORDINI -->
+  <div *ngIf="isLogged">
+    
+    <ion-list-header><h2>🍣 Menu Sushi</h2></ion-list-header>
+    <ion-card *ngFor="let p of prodotti">
+      <img [src]="p.immagine_url" style="height: 150px; object-fit: cover; width: 100%;" />
+      <ion-card-header>
+        <ion-card-title>{{ p.nome }}</ion-card-title>
+        <ion-card-subtitle>{{ p.prezzo | currency:'EUR' }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-button fill="clear" (click)="aggiungiAlCarrello(p)">Aggiungi</ion-button>
+    </ion-card>
+
+    <!-- CARRELLO -->
+    <ion-list *ngIf="carrello.length > 0">
+      <ion-list-header><h3>🛒 Il tuo ordine</h3></ion-list-header>
+      <ion-item *ngFor="let c of carrello">
+        {{ c.nome }} x {{ c.quantita }}
+      </ion-item>
+      <ion-button expand="block" color="success" (click)="inviaOrdine()">Invia Ordine</ion-button>
+    </ion-list>
+
+    <!-- STATO ORDINI TAVOLO -->
+    <ion-list-header><h3>🕒 Stato del Tavolo</h3></ion-list-header>
+    <ion-item *ngFor="let o of ordiniEffettuati">
+      <ion-label>
+        <h2>Ordine #{{ o.id }} - {{ o.utente_nome }}</h2>
+        <p>Stato: <b>{{ o.stato }}</b></p>
+      </ion-label>
+    </ion-item>
+    <ion-button expand="block" fill="outline" (click)="aggiornaStato()">Aggiorna Stato</ion-button>
+
+  </div>
+</ion-content>

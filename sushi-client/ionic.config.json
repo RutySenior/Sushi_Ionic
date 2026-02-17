@@ -1,0 +1,7 @@
+{
+  "name": "sushi-client",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

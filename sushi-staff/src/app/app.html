@@ -1,0 +1,76 @@
+<div style="padding: 20px; font-family: sans-serif;">
+  <h1>🍱 Pannello Staff Sushi</h1>
+
+  <hr>
+
+  <!-- SEZIONE ORDINI -->
+  <section>
+    <h2>📋 Ordini Attivi</h2>
+    <table border="1" width="100%" cellpadding="10">
+      <thead>
+        <tr>
+          <th>Tavolo</th>
+          <th>Cliente</th>
+          <th>Dettaglio Piatti</th>
+          <th>Stato Corrente</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of ordini">
+          <td><b>{{ o.codice_tavolo }}</b></td>
+          <td>{{ o.utente_nome }}</td>
+          <td>{{ o.dettaglio_piatti }}</td>
+          <td>{{ o.stato }}</td>
+          <td>
+            <button (click)="cambiaStato(o.id, 'In preparazione')">In Prep.</button>
+            <button (click)="cambiaStato(o.id, 'Servito')">Servito</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <br><hr><br>
+
+  <!-- SEZIONE GESTIONE MENU -->
+  <section>
+    <h2>🍣 Gestione Menu (CRUD)</h2>
+    
+    <!-- Form Aggiunta -->
+    <div style="background: #f0f0f0; padding: 15px; margin-bottom: 20px;">
+      <h3>Aggiungi Nuovo Piatto</h3>
+      <input [(ngModel)]="nuovoProdotto.nome" placeholder="Nome Piatto">
+      <input type="number" [(ngModel)]="nuovoProdotto.prezzo" placeholder="Prezzo">
+      <input [(ngModel)]="nuovoProdotto.immagine_url" placeholder="URL Immagine">
+      <select [(ngModel)]="nuovoProdotto.categoria_id">
+        <option *ngFor="let c of categorie" [value]="c.id">{{ c.nome }}</option>
+      </select>
+      <button (click)="aggiungiPiatto()">Salva Piatto</button>
+    </div>
+
+    <!-- Tabella Piatti -->
+    <table border="1" width="100%" cellpadding="10">
+      <thead>
+        <tr>
+          <th>Immagine</th>
+          <th>Nome</th>
+          <th>Prezzo</th>
+          <th>Categoria</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of prodotti">
+          <td><img [src]="p.immagine_url" width="50"></td>
+          <td>{{ p.nome }}</td>
+          <td>{{ p.prezzo | currency:'EUR' }}</td>
+          <td>{{ p.categoria_nome }}</td>
+          <td>
+            <button (click)="eliminaPiatto(p.id)" style="color: red;">Elimina</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
